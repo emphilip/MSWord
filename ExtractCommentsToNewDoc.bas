@@ -30,6 +30,7 @@ Sub ExportCommentsToNewDoc()
     
     ' Section number -- i.e. the number of the first preceding line in heading style
     Dim cPara As Paragraph
+    Dim cParaRange As Range
     Set cPara = Selection.Range.Paragraphs(1)
     Dim Counter As Integer
     Counter = 0
@@ -37,7 +38,11 @@ Sub ExportCommentsToNewDoc()
     Do While True = True
       Counter = Counter + 1
       ' Check for heading -- would be better to do this with Outline Level but this will do
-      If Left(cPara.Range.Style, Len("Heading")) = "Heading" Then
+      Dim styleString As String
+      Dim paragraphStyleName As String
+      Set cParaRange = cPara.Range
+      styleString = Left(cParaRange, Len("Heading"))
+      If (styleString = "Heading") Then
         ' use of ListString thanks to http://www.word.mvps.org/faqs/numbering/ListString.htm
         TRow.Cells(3).Range.Text = cPara.Range.ListFormat.ListString
         Exit Do
